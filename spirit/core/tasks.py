@@ -151,6 +151,10 @@ def _notify_comment(
         Comment.objects
         .select_related('user__st', 'topic')
         .get(pk=comment_id))
+    
+    if not comment.user.is_superuser:
+        return
+
     actions = {
         'mention': Notification.MENTION,
         'reply': Notification.COMMENT}
